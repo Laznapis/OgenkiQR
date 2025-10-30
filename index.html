@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>QRコードを出す</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 10px;
+        }
+
+        .input-row {
+            margin-bottom: 15px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            flex: 1;
+            padding: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 8px 12px;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .image-container {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            width: 100px;
+            height: 100px;
+            overflow-y: scroll;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .floating-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            display: block;
+        }
+    </style>
+    <script src="easy.qrcode.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        function validateInput(value) {
+            const num = Number(value);
+            return (num >= 0 && num <= 255) ? num : 0;
+        }
+
+        function test(inputA, inputB) {
+            console.log("InputA:", inputA, "InputB:", inputB);
+        }
+
+        function handleChange() {
+            const inputA = validateInput(document.getElementById("inputA").value);
+            const inputB = validateInput(document.getElementById("inputB").value);
+            test(inputA, inputB);
+            var options_object = {
+                text: [139, 139, 233, 170, inputA, inputB, 250, 102, 70, 101, 19, 117, 121, 215],
+                width: 50,
+                height: 50,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.L,
+                binary: true
+            };
+            var qrcode = new QRCode(document.getElementById("qrimg"), options_object);
+        }
+
+        function adjustValue(id, delta) {
+            const input = document.getElementById(id);
+            let value = validateInput(input.value);
+            value += delta;
+            if (value > 255) value = 0;
+            if (value < 0) value = 255;
+            input.value = value;
+            handleChange();
+        }
+
+        window.onload = function () {
+            handleChange();
+        };
+    </script>
+</head>
+<body>
+    <div class="input-row">
+        <label for="inputA">InputA:</label>
+        <div class="input-group">
+            <input type="number" id="inputA" min="0" max="255" value="0" oninput="handleChange()">
+            <button onclick="adjustValue('inputA', -10)">−10</button>
+            <button onclick="adjustValue('inputA', -1)">−</button>
+            <button onclick="adjustValue('inputA', 256)">0</button>
+            <button onclick="adjustValue('inputA', 1)">＋</button>
+            <button onclick="adjustValue('inputA', 10)">＋10</button>
+        </div>
+    </div>
+
+    <div class="input-row">
+        <label for="inputB">InputB:</label>
+        <div class="input-group">
+            <input type="number" id="inputB" min="0" max="255" value="0" oninput="handleChange()">
+            <button onclick="adjustValue('inputB', -10)">−10</button>
+            <button onclick="adjustValue('inputB', -1)">−</button>
+            <button onclick="adjustValue('inputB', 256)">0</button>
+            <button onclick="adjustValue('inputB', 1)">＋</button>
+            <button onclick="adjustValue('inputB', 10)">＋10</button>
+        </div>
+    </div>
+    <div class="image-container">
+        <div id="qrimg" class="floating-image">
+        </div>
+    </div>
+</body>
+</html>
