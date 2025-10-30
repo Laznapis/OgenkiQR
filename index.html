@@ -44,8 +44,8 @@
             position: fixed;
             bottom: 10px;
             right: 10px;
-            width: 100px;
-            height: 100px;
+            width: 200px;
+            height: 200px;
             overflow-y: scroll;
             background-color: #f0f0f0;
             border: 1px solid #ccc;
@@ -53,8 +53,8 @@
         }
 
         .floating-image {
-            width: 100px;
-            height: 100px;
+            width: 200px;
+            height: 200px;
             object-fit: cover;
             display: block;
         }
@@ -74,13 +74,16 @@
             const inputA = validateInput(document.getElementById("inputA").value);
             const inputB = validateInput(document.getElementById("inputB").value);
             test(inputA, inputB);
+            document.getElementById("qrimg").innerHTML = '';
             var options_object = {
                 text: [139, 139, 233, 170, inputA, inputB, 250, 102, 70, 101, 19, 117, 121, 215],
-                width: 50,
-                height: 50,
+                width: 110,
+                height: 110,
                 colorDark: "#000000",
                 colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.L,
+                correctLevel: QRCode.CorrectLevel.M,
+                quietZone: 3,
+                version: 1,
                 binary: true
             };
             var qrcode = new QRCode(document.getElementById("qrimg"), options_object);
@@ -107,10 +110,10 @@
         <div class="input-group">
             <input type="number" id="inputA" min="0" max="255" value="0" oninput="handleChange()">
             <button onclick="adjustValue('inputA', -10)">−10</button>
-            <button onclick="adjustValue('inputA', -1)">−</button>
+            <button onclick="adjustValue('inputA', -1)">－</button>
             <button onclick="adjustValue('inputA', 256)">0</button>
             <button onclick="adjustValue('inputA', 1)">＋</button>
-            <button onclick="adjustValue('inputA', 10)">＋10</button>
+            <button onclick="adjustValue('inputA', 10)">+10</button>
         </div>
     </div>
 
@@ -119,10 +122,10 @@
         <div class="input-group">
             <input type="number" id="inputB" min="0" max="255" value="0" oninput="handleChange()">
             <button onclick="adjustValue('inputB', -10)">−10</button>
-            <button onclick="adjustValue('inputB', -1)">−</button>
+            <button onclick="adjustValue('inputB', -1)">－</button>
             <button onclick="adjustValue('inputB', 256)">0</button>
             <button onclick="adjustValue('inputB', 1)">＋</button>
-            <button onclick="adjustValue('inputB', 10)">＋10</button>
+            <button onclick="adjustValue('inputB', 10)">+10</button>
         </div>
     </div>
     <div class="image-container">

@@ -2122,7 +2122,8 @@
     var nCorrectLevel = _htOption.correctLevel;
 
     var nType = 1;
-    var length = _getUTF8Length(sText);
+    // var length = _getUTF8Length(sText);
+    var length = _getUTF8Length(sText, _htOption.binary);
 
     for (var i = 0, len = QRCodeLimitLength.length; i < len; i++) {
       var nLimit = 0;
@@ -2173,14 +2174,24 @@
     return nType;
   }
 
-  function _getUTF8Length(sText) {
-    var replacedText = encodeURI(sText)
-      .toString()
-      .replace(/\%[0-9a-fA-F]{2}/g, "a");
-    return replacedText.length;
+  //function _getUTF8Length(sText) {
+  //  var replacedText = encodeURI(sText)
+  //    .toString()
+  //    .replace(/\%[0-9a-fA-F]{2}/g, "a");
+  //  return replacedText.length;
+  //}
+  function _getUTF8Length(sText, _binary) {
+    if (_binary) {
+      return sText.length;
+    } else {
+      var replacedText = encodeURI(sText)
+        .toString()
+        .replace(/\%[0-9a-fA-F]{2}/g, "a");
+      return replacedText.length;
+    }
   }
 
-  QRCode = function (el, vOption) {
+    QRCode = function (el, vOption) {
     this._htOption = {
       width: 256,
       height: 256,
