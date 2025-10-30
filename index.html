@@ -131,9 +131,11 @@
             const inputA = validateInput(document.getElementById("inputA").value);
             const inputB = validateInput(document.getElementById("inputB").value);
             test(inputA, inputB);
+            const decArr = [139, 139, 233, 170, inputA, inputB, 250, 102, 70, 101, 19, 117, 121, 215];
+            document.getElementById("hexTxt").innerText = decArr.map(num => num.toString(16).padStart(2, '0')).join('');
             document.getElementById("qrimg").innerHTML = '';
             var options_object = {
-                text: [139, 139, 233, 170, inputA, inputB, 250, 102, 70, 101, 19, 117, 121, 215],
+                text: decArr,
                 width: 63,
                 height: 63,
                 colorDark: "#000000",
@@ -186,6 +188,8 @@
         <button onclick="adjustValue('inputB', 1)">＋</button>
         <button onclick="adjustValue('inputB', 10)">+10</button>
     </div>
+    <div style="height: 20px;"></div>
+    <div id="hexTxt" style="height: 20px;"></div>
     <div class="image-container">
         <div id="qrimg" class="floating-image">
         </div>
